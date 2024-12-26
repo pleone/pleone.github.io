@@ -20,6 +20,8 @@
         }
         .scratch-container {
             display: none;
+            width: 100%;
+            height: 100%;
         }
         .rotate-device {
             display: none;
@@ -44,7 +46,7 @@
         }
         @media (orientation: landscape) {
             .scratch-container {
-                display: block;
+                display: flex;
             }
             .rotate-device {
                 display: none;
@@ -219,6 +221,31 @@
         });
         canvas.addEventListener('touchmove', reveal);
         canvas.addEventListener('touchend', () => isDrawing = false);
+
+        // Funzione per entrare in modalità full screen
+        function enterFullScreen() {
+            if (document.documentElement.requestFullscreen) {
+                document.documentElement.requestFullscreen();
+            } else if (document.documentElement.mozRequestFullScreen) { // Firefox
+                document.documentElement.mozRequestFullScreen();
+            } else if (document.documentElement.webkitRequestFullscreen) { // Chrome, Safari and Opera
+                document.documentElement.webkitRequestFullscreen();
+            } else if (document.documentElement.msRequestFullscreen) { // IE/Edge
+                document.documentElement.msRequestFullscreen();
+            }
+        }
+
+        // Listener per il cambiamento di orientamento
+        window.addEventListener('orientationchange', () => {
+            if (window.orientation === 90 || window.orientation === -90) {
+                enterFullScreen();
+            }
+        });
+
+        // Entra in modalità full screen se già in landscape
+        if (window.orientation === 90 || window.orientation === -90) {
+            enterFullScreen();
+        }
     </script>
 </body>
 </html>

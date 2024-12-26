@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scratch Card Natalizia</title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+        .instructions {
+            text-align: left;
+            margin: 10px;
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+            color: #666;
+            font-size: 1.5em;
+        }
+        .scratch-container {
+            display: none;
+            width: 100%;
+            height: 100%;
+            position: relative;
+        }
+        .rotate-device {
+            display: none;
+            width: 100%;
+            height: 100%;
+            background: #fff;
+            text-align: center;
+            font-family: Arial, sans-serif;
+            color: #666;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+        .rotate-device img {
+            width: 50px;
+            height: 50px;
+            animation: rotate 2s infinite linear;
+        }
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        @media (orientation: landscape) {
+            .scratch-container {
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+            }
+            .rotate-device {
+                display: none;
+            }
+        }
+        @media (orientation: portrait) {
+            .scratch-container {
+                display: none;
+            }
+            .rotate-device {
+                display: flex;
+            }
+        }
+        #christmasMessage {
+            display: none;
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+            font-size: 2em;
+            color: red;
+            text-align: center;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+        canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            touch-action: none;
+            z-index: 3;
+        }
+        .cover-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+    </style>
+</head>
+<body>
+    <div class="rotate-device">
+        <img src="https://cdn-icons-png.flaticon.com/512/1827/1827504.png" alt="Rotate Device">
+        <p>Per favore, ruota il dispositivo in modalità landscape.</p>
+    </div>
+    <div class="scratch-container">
+        <div class="instructions">Strofina lo schermo per scoprire la sorpresa natalizia!</div>
+        <div class="scratch-container">
+            <img id="baseImage" src="https://m.media-amazon.com/images/I/71eSON65OyL._AC_SL1500_.jpg" class="cover-image" alt="ALFA Device First Image">
+            <div id="christmasMessage">Buon Natale Boss! 🦁🎅 </div>
+            <canvas id="scratchCanvas"></canvas>
+        </div>
+    </div>
+
+    <script>
+        const canvas = document.getElementById('scratchCanvas');
+        const ctx = canvas.getContext('2d');
+        const message = document.getElementById('christmasMessage');
+        let audioPlayed = false;
+        
+        // Crea l'elemento audio
+        const audio = new Audio('https://cdn.freesound.org/previews/349/349855_344536-lq.mp3');
+        audio.volume = 0.3;
+
+        function setCanvasSize() {
+            const container = canvas.parentElement;
+            canvas.width = container.offsetWidth;
+            canvas.height = container.offsetHeight;
+            
+            // Riempi il canvas con un grigio
+            ctx.fillStyle = '#CCCCCC';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+        }
+        
+        setCanvasSize();
+        window.addEventListener('resize', setCanvasSize);
+
+        let isDrawing = false;
+        let lastX = 0;
+        let lastY = 0;
+
+        function getScratchedPercentage() {
+            const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+            const pixels = imageData.data;
+            let transparentPixels = 0;
+            
+            for (let i = 3; i < pixels.length; i += 4) {
+                if (pixels[i] === 0) transparentPixels++;
+            }
+            
+            return (transparentPixels / (pixels.length / 4)) * 100;
+        }
+
+        function reveal(e) {
+            if (!isDrawing) return;
+            const rect = canvas.getBoundingClientRect();
+            const x = e.touches ? e.touches[0].clientX - rect.left : e.offsetX;
+            const y = e.touches ? e.touches[0].clientY - rect.top : e.offsetY;
+            ctx.globalCompositeOperation = 'destination-out';
+            ctx.lineWidth = 40;
+            ctx.lineCap = 'round';
+            ctx.beginPath();
+            ctx.moveTo(lastX, lastY);
+            ctx.lineTo(x, y);
+            ctx.stroke();
+
+            const scratchedPercentage = getScratchedPercentage();
+            if (scratchedPercentage > 40 && !audioPlayed) {
+                message.style.display = 'block';
+                audio.play();
+                audioPlayed = true;
+            }
+
+            lastX = x;
+            lastY = y;
+        }
+
+        // Event listeners per mouse
+        canvas.addEventListener('mousedown', (e) => {
+            isDrawing = true;
+            lastX = e.offsetX;
+            lastY = e.offsetY;
+        });
+        canvas.addEventListener('mousemove', reveal);
+        canvas.addEventListener('mouseup', () => isDrawing = false);
+        canvas.addEventListener('mouseout', () => isDrawing = false);
+
+        // Event listeners per touch
+        canvas.addEventListener('touchstart', (e) => {
+            isDrawing = true;
+            const rect = canvas.getBoundingClientRect();
+            lastX = e.touches[0].clientX - rect.left;
+            lastY = e.touches[0].clientY - rect.top;
+        });
+        canvas.addEventListener('touchmove', reveal);
+        canvas.addEventListener('touchend', () => isDrawing = false);
+
+        // Funzione per entrare in modalità full screen
+        function enterFullScreen() {
+            const elem = document.documentElement;
+            if (elem.requestFullscreen) {
+                elem.requestFullscreen();
+            } else if (elem.mozRequestFullScreen) { // Firefox
+                elem.mozRequestFullScreen();
+            } else if (elem.webkitRequestFullscreen) { // Chrome, Safari and Opera
+                elem.webkitRequestFullscreen();
+            } else if (elem.msRequestFullscreen) { // IE/Edge
+                elem.msRequestFullscreen();
+            }
+        }
+
+        // Entra in modalità full screen al caricamento della pagina
+        window.addEventListener('load', () => {
+            enterFullScreen();
+        });
+
+        // Listener per il cambiamento di orientamento
+        window.addEventListener('orientationchange', () => {
+            if (window.orientation === 90 || window.orientation === -90) {
+                enterFullScreen();
+            }
+        });
+    </script>
+</body>
+</html>

@@ -83,20 +83,6 @@
             touch-action: none;
             z-index: 3;
         }
-        #fullscreenButton {
-            display: none;
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            padding: 10px 20px;
-            font-size: 1.5em;
-            background-color: #007BFF;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
     </style>
 </head>
 <body>
@@ -112,13 +98,11 @@
             <canvas id="scratchCanvas"></canvas>
         </div>
     </div>
-    <button id="fullscreenButton">Entra in modalità Fullscreen</button>
 
     <script>
         const canvas = document.getElementById('scratchCanvas');
         const ctx = canvas.getContext('2d');
         const message = document.getElementById('christmasMessage');
-        const fullscreenButton = document.getElementById('fullscreenButton');
         let audioPlayed = false;
         
         // Crea l'elemento audio
@@ -168,7 +152,7 @@
             ctx.stroke();
 
             const scratchedPercentage = getScratchedPercentage();
-            if (scratchedPercentage > 50 && !audioPlayed) {
+            if (scratchedPercentage > 40 && !audioPlayed) {
                 message.style.display = 'block';
                 audio.play();
                 audioPlayed = true;
@@ -215,21 +199,14 @@
         // Listener per il cambiamento di orientamento
         window.addEventListener('orientationchange', () => {
             if (window.orientation === 90 || window.orientation === -90) {
-                fullscreenButton.style.display = 'block';
-            } else {
-                fullscreenButton.style.display = 'none';
+                enterFullScreen();
             }
         });
 
         // Entra in modalità full screen se già in landscape
         if (window.orientation === 90 || window.orientation === -90) {
-            fullscreenButton.style.display = 'block';
-        }
-
-        fullscreenButton.addEventListener('click', () => {
             enterFullScreen();
-            fullscreenButton.style.display = 'none';
-        });
+        }
     </script>
 </body>
 </html>

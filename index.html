@@ -196,17 +196,17 @@
             }
         }
 
+        // Entra in modalità full screen al caricamento della pagina
+        window.addEventListener('load', () => {
+            enterFullScreen();
+        });
+
         // Listener per il cambiamento di orientamento
         window.addEventListener('orientationchange', () => {
             if (window.orientation === 90 || window.orientation === -90) {
                 enterFullScreen();
             }
         });
-
-        // Entra in modalità full screen se già in landscape
-        if (window.orientation === 90 || window.orientation === -90) {
-            enterFullScreen();
-        }
     </script>
 </body>
 </html>

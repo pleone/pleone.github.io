@@ -1,7 +1,63 @@
 <!DOCTYPE html>
-<html>
+<html lang="it">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scratch Card Natalizia</title>
     <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+        .instructions {
+            text-align: center;
+            margin: 10px;
+            font-family: Arial, sans-serif;
+            color: #666;
+        }
+        .scratch-container {
+            display: none;
+        }
+        .rotate-device {
+            display: none;
+            width: 100%;
+            height: 100%;
+            background: #fff;
+            text-align: center;
+            font-family: Arial, sans-serif;
+            color: #666;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+        .rotate-device img {
+            width: 50px;
+            height: 50px;
+            animation: rotate 2s infinite linear;
+        }
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        @media (orientation: landscape) {
+            .scratch-container {
+                display: block;
+            }
+            .rotate-device {
+                display: none;
+            }
+        }
+        @media (orientation: portrait) {
+            .scratch-container {
+                display: none;
+            }
+            .rotate-device {
+                display: flex;
+            }
+        }
         .scratch-container {
             position: relative;
             width: 640px;
@@ -64,11 +120,17 @@
     </style>
 </head>
 <body>
-    <div class="instructions">Strofina lo schermo per scoprire la sorpresa natalizia!</div>
+    <div class="rotate-device">
+        <img src="https://cdn-icons-png.flaticon.com/512/1827/1827504.png" alt="Rotate Device">
+        <p>Per favore, ruota il dispositivo in modalità landscape.</p>
+    </div>
     <div class="scratch-container">
-        <img id="baseImage" src="https://www.smartworld.it/images/2023/06/06/alfa-by-sinapsi-def-01_640x360.jpg" alt="ALFA Device First Image">
-        <div id="christmasMessage">Buon Natale Francesco! 🎄✨</div>
-        <canvas id="scratchCanvas"></canvas>
+        <div class="instructions">Strofina lo schermo per scoprire la sorpresa natalizia!</div>
+        <div class="scratch-container">
+            <img id="baseImage" src="https://www.smartworld.it/images/2023/06/06/alfa-by-sinapsi-def-01_640x360.jpg" alt="ALFA Device First Image">
+            <div id="christmasMessage">Buon Natale Francesco! 🎄✨</div>
+            <canvas id="scratchCanvas"></canvas>
+        </div>
     </div>
 
     <script>

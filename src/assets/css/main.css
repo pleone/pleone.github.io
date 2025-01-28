@@ -1,0 +1,15 @@
+.gradient {
+  color: inherit;
+  background-image: linear-gradient(161deg,rgba(177,198,225,0),rgba(255,255,255,.4) 42%,rgba(67,47,14,0)),radial-gradient(at 0 0,#ff618f 8%,rgba(110,167,172,0) 62%),linear-gradient(49deg,rgba(226,225,229,0) 37%,rgba(255,255,255,.78) 58%,rgba(4,218,160,0) 93%),radial-gradient(circle at 12% 100%,#ff6700 60%,rgba(37,36,5,.4) 100%),radial-gradient(at 100% 30%,#7a09af 68%,rgba(201,205,172,0) 100%)
+}
+.font-heading {
+  font-family: Unbounded,sans-serif;
+  color: #000
+}
+.bg-donq-transparent {
+  opacity: null;
+  color: #fff;
+  border-top-right-radius: 40px;
+  border-bottom-left-radius: 40px
+}
+

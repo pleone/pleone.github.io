@@ -1,0 +1,62 @@
+.text-gradient {
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.70) 0%, #FFF 50.15%, rgba(255, 255, 255, 0.20) 100%);
+    background: linear-gradient(180deg, color(1 1 1 / 0.70) 0%, color(1 1 1) 50.15%, color(1 1 1 / 0.20) 100%);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.text-shadow {
+    text-shadow: 0px 3px 2px rgba(64, 0, 16, 0.20);
+}
+
+.bg-gradient-danger-top {
+    background: linear-gradient( #22090F 0%, #AA002A 56.58%, #FF98B5 100%);
+}
+
+.bg-gradient-danger-bottom {
+    background: linear-gradient( #FA9EB5 0%, #9B082E 56.58%, #27020B 100%);
+}
+
+.bg-gradient-primary-top {
+    background: linear-gradient(#020229 13.05%, #0808A2 62.25%, #9E9EFF 100%);
+}
+
+.bg-gradient-primary-bottom {
+    background: linear-gradient( #9E9EFF 0%, #0808A2 56.58%, #020229 100%);
+}
+
+.bg-gradient-success-top {
+    background: linear-gradient(#002811 13.05%, #009E42 62.25%, #ABFC92 100%);
+}
+
+.bg-gradient-success-bottom {
+    background: linear-gradient( #ABFC92 0%, #009E42 56.58%, #002811 100%);
+}
+
+.btn-shadow-danger {
+    box-shadow: 0px 2px 8px 4px rgba(255, 26, 106, 0.20), 0px 0px 2px 0px #110407;
+}
+
+.btn-shadow-primary {
+    box-shadow: 0px 2px 8px 4px rgba(89, 146, 255, 0.20), 0px 0px 2px 0px #110407;
+}
+
+.btn-shadow-success {
+    box-shadow: 0px 2px 8px 4px rgba(90, 207, 87, 0.20), 0px 0px 2px 0px #110407;
+}
+
+.form-control::placeholder {
+    color: #fff;
+    opacity: 0.5;
+}
+
+.form-control:-ms-input-placeholder {
+    color: #fff;
+    opacity: 0.5;
+}
+
+.form-control::-ms-input-placeholder {
+    color: #fff;
+    opacity: 0.5;
+}
